@@ -1,8 +1,7 @@
 
 
 export class Card {
-    FirstName!: string;
-    LastName!:string;
+    Name!: string;
     CardNumber!: number;
     Type!: string;
     Cvc!: number;

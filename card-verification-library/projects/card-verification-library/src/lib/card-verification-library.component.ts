@@ -12,22 +12,70 @@ import { Card } from './shared/card';
   ]
 })
 export class CardVerificationLibraryComponent implements OnInit {
- CARD_NUMBER_REGEX = /^[\d\s-]*$/;
- MAX_LENGTH = 255;
+  CARD_NUMBER_REGEX = /^[\d\s-]*$/;
+  MAX_LENGTH = 255;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-verifyCard(cardInfo: Card): boolean{
-return true;
+  verifyCard(cardInfo: Card): boolean {
+    let cardNumToValidate = cardInfo.CardNumber.toString();
+    let isValidCard = false;
 
-}
+    if(cardInfo.BillingAddress && cardInfo.CardNumber && cardInfo.ExpDate){
+      switch (cardNumToValidate.substring(0,1)) {
+        case '3': { //Amex
+          if (cardNumToValidate.length === 15) {
+            isValidCard = true;
+          }
+          break;
+        }
+        case '4': { //Visa
+          if (cardNumToValidate.length === 16) {
+            isValidCard = true;
+          }
+          break;
+        }
+        case '5': { //MC
+          if (cardNumToValidate.length === 16) {
+            isValidCard = true;
+          }
+          break;
+        }
+        case '6': { //Discover
+          if (cardNumToValidate.length === 16) {
+            isValidCard = true;
+          }
+          break;
+        }
+        default: {
+          isValidCard = false;
+          break;
+        }
+      }
+    }else{
+      isValidCard = false;
+    }
+   
+   
 
- verification(
+    return isValidCard;
+
+  }
+
+
+
+
+
+
+
+verification(
   isValid: boolean,
   isPotentiallyValid: boolean
 ): Verification {
+
+
   return { isValid, isPotentiallyValid };
 }
 
